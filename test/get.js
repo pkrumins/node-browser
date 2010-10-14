@@ -15,6 +15,6 @@ module.exports.get = function (assert) {
 
     setTimeout(function () {
         assert.equal(executed, 1)
-    }, 1000);
+    }, 2000);
 }
 
