@@ -27,27 +27,46 @@ function Browser () {
         }
     });
 
-    function get (url) {
+    Client.prototype = new EventEmitter;
+    function Client (url, opts) {
+        if (!(this instanceof Client)) return new Client(url);
+        var self = this;
+
+        opts = opts || {};
+        opts.method = opts.method || 'GET';
+
         var parsed = parse(url);
         var client = http.createClient(parsed.port || 80, parsed.hostname);
         var path = (parsed.pathname || '/') + (parsed.search || '');
-        var request = client.request('GET', path, {
+        var request = client.request(opts.method, path, {
             host : parsed.hostname
         });
-        request.end();
+        request.end(opts.data || '');
         var data = new BufferList;
         request.on('response', function (response) {
             response.on('data', function (chunk) {
                 data.push(chunk);
             });
             response.on('end', function () {
-                emitter.emit('done', response, data.toString());
+                self.emit('done', response, data.toString());
             });
+        });
+
+    }
+
+    function get (url) {
+        var client = new Client(url);
+        client.on('done', function (response, data) {
+            emitter.emit('done', response, data);
         });
     }
 
     function post (url, data) {
-        console.log('post ' + url);
+        var formData = data;
+        var client = new Client(url, { method : 'POST', data : formData });
+        client.on('done', function (response, data) {
+            emitter.emit('done', response, data);
+        });
     }
 
     function tap (f, storage, response, data) {
