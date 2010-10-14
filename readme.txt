@@ -1,5 +1,5 @@
 A node.js module for browsing a web in an awesome way! I wrote it for my
-social-submitter software (github.com/pkrumins/social-submitter).
+social-submitter software (http://github.com/pkrumins/social-submitter).
 
 It was written by Peteris Krumins (peter@catonmat.net).
 His blog is at http://www.catonmat.net  --  good coders code, great reuse.
