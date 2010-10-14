@@ -2,6 +2,7 @@ var http = require('http');
 var parse = require('url').parse;
 var EventEmitter = require('events').EventEmitter;
 var BufferList = require('bufferlist').BufferList;
+var Hash = require('traverse/hash');
 
 module.exports = Browser;
 function Browser () {
@@ -34,13 +35,15 @@ function Browser () {
 
         opts = opts || {};
         opts.method = opts.method || 'GET';
+        opts.headers = opts.headers || {};
 
         var parsed = parse(url);
         var client = http.createClient(parsed.port || 80, parsed.hostname);
         var path = (parsed.pathname || '/') + (parsed.search || '');
-        var request = client.request(opts.method, path, {
+        var headers = Hash({
             host : parsed.hostname
-        });
+        }).merge(opts.headers).items;
+        var request = client.request(opts.method, path, headers);
         request.end(opts.data || '');
         var data = new BufferList;
         request.on('response', function (response) {
