@@ -1,0 +1,33 @@
+{
+    "name": "browser",
+    "version": "1.0.0",
+    "description": "Web browser for node.js",
+    "modules" : {
+        "index" : "./browser.js"
+    },
+    "keywords": [
+        "browser",
+        "http",
+        "html",
+        "web"
+    ],
+    "maintainers": [
+        {
+            "name": "Peteris Krumins",
+            "email": "peteris.krumins@gmail.com",
+            "web": "http://www.catonmat.net",
+            "twitter": "pkrumins"
+        } 
+    ],
+    "license": {
+            "type": "MIT"
+    }, 
+    "repository": {
+            "type": "git",
+            "url": "http://github.com/pkrumins/node-browser.git"
+    }, 
+    "engines": {
+        "node": ">=0.2.0"
+    }
+}
+
