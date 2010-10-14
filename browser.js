@@ -9,6 +9,7 @@ function Browser () {
     var self = this;
     var actionQueue = [];
     var emitter = new EventEmitter;
+    var storage = {};
 
     function newAction(f, args) {
         actionQueue.push({ f : f, args : args });
@@ -40,7 +41,7 @@ function Browser () {
                 data.push(chunk);
             });
             response.on('end', function () {
-                emitter.emit('done', data.toString());
+                emitter.emit('done', response, data.toString());
             });
         });
     }
@@ -49,19 +50,22 @@ function Browser () {
         console.log('post ' + url);
     }
 
-    function tap (f) {
-        console.log('tap ');
+    function tap (f, storage, response, data) {
+        f(storage, response, data)
     }
 
     self.end = function () {
-        function next (data) {
+        function next (response, data) {
             var action = actionQueue.shift();
             if (!action) return;
-            action.f.apply(self, action.args);
+            var args = [].slice.apply(action.args);
+            args.push(storage);
+            args.push(response);
+            args.push(data);
+            action.f.apply(self, args);
         }
-        emitter.on('done', function (data) {
-            console.log('data: ' + data)
-            next(data);
+        emitter.on('done', function (response, data) {
+            next(response, data);
         });
         emitter.emit('done');
     }
