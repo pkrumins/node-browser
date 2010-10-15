@@ -54,19 +54,22 @@ function Browser () {
                 self.emit('done', response, data.toString());
             });
         });
-
     }
 
-    function get (url) {
-        var client = new Client(url);
+    function get (opts) {
+        if (typeof opts === 'string')
+            var opts = { url : opts }
+        var client = new Client(opts.url);
         client.on('done', function (response, data) {
             emitter.emit('done', response, data);
         });
     }
 
-    function post (url, data) {
+    function post (opts, data) {
+        if (typeof opts === 'string')
+            var opts = { url : opts }
         var formData = data;
-        var client = new Client(url, { method : 'POST', data : formData });
+        var client = new Client(opts.url, { method : 'POST', data : formData });
         client.on('done', function (response, data) {
             emitter.emit('done', response, data);
         });
