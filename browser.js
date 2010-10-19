@@ -3,6 +3,8 @@ var parse = require('url').parse;
 var EventEmitter = require('events').EventEmitter;
 var BufferList = require('bufferlist').BufferList;
 var Hash = require('traverse/hash');
+var unescape = require('querystring').unescape;
+var escape = require('querystring').escape;
 
 module.exports = Browser;
 function Browser () {
@@ -11,6 +13,7 @@ function Browser () {
     var actionQueue = [];
     var emitter = new EventEmitter;
     var storage = {};
+    var cookies = {};
 
     function newAction(f, args) {
         actionQueue.push({ f : f, args : args });
@@ -28,14 +31,30 @@ function Browser () {
         }
     });
 
+    function updateCookies (cookieStr) {
+        // I'm looking for an aspiring hacker who wants to write a real cookie parser.
+        // This parser just stores the value, ignores domain, expire, etc.
+        var components = cookieStr.split(/;\s*/);
+        var moo = components[0].split('=');
+        cookies[unescape(moo[0])] = unescape(moo[1]);
+    }
+
     Client.prototype = new EventEmitter;
     function Client (url, opts) {
-        if (!(this instanceof Client)) return new Client(url);
+        if (!(this instanceof Client)) return new Client(url, opts);
         var self = this;
 
         opts = opts || {};
         opts.method = opts.method || 'GET';
         opts.headers = opts.headers || {};
+
+        if (opts.cookies && Hash(opts.cookies).size) {
+            var toJoin = [];
+            Hash(opts.cookies).forEach(function (k,v) {
+                shit.push(escape(k) + '=' + escape(v));
+            });
+            opts.headers.cookie = toJoin.join('; ');
+        }
 
         var parsed = parse(url);
         var client = http.createClient(parsed.port || 80, parsed.hostname);
@@ -47,6 +66,15 @@ function Browser () {
         request.end(opts.data || '');
         var data = new BufferList;
         request.on('response', function (response) {
+            if (response.headers['set-cookie'] instanceof Array) {
+                response.headers['set-cookie'].forEach(function (cookie) {
+                    updateCookies(cookie);
+                });
+            }
+            else {
+                updateCookies(response.headers['set-cookie']);
+            }
+            console.log(cookies);
             response.on('data', function (chunk) {
                 data.push(chunk);
             });
@@ -59,7 +87,7 @@ function Browser () {
     function get (opts) {
         if (typeof opts === 'string')
             var opts = { url : opts }
-        var client = new Client(opts.url);
+        var client = new Client(opts.url, { cookies : cookies });
         client.on('done', function (response, data) {
             emitter.emit('done', response, data);
         });
@@ -69,7 +97,7 @@ function Browser () {
         if (typeof opts === 'string')
             var opts = { url : opts }
         var formData = data;
-        var client = new Client(opts.url, { method : 'POST', data : formData });
+        var client = new Client(opts.url, { method : 'POST', data : formData, cookies : cookies });
         client.on('done', function (response, data) {
             emitter.emit('done', response, data);
         });
