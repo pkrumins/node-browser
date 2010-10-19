@@ -1,5 +1,4 @@
 var Browser = require('browser');
-var expresso = require('expresso');
 
 module.exports.get = function (assert) {
     var browser = new Browser;
@@ -33,5 +32,5 @@ module.exports['get with opts'] = function (assert) {
     setTimeout(function () {
         assert.equal(executed, 1)
     }, 2000);
-
 }
+
