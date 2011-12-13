@@ -2,7 +2,7 @@ var http = require('http');
 var parse = require('url').parse;
 var EventEmitter = require('events').EventEmitter;
 var BufferList = require('bufferlist').BufferList;
-var Hash = require('traverse/hash');
+var Hash = require('hashish');
 var unescape = require('querystring').unescape;
 var escape = require('querystring').escape;
 
