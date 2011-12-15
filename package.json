@@ -2,9 +2,7 @@
     "name": "browser",
     "version": "1.0.0",
     "description": "Web browser for node.js",
-    "modules" : {
-        "index" : "./browser.js"
-    },
+    "main" : "./browser.js",
     "keywords": [
         "browser",
         "http",
@@ -28,6 +26,10 @@
     }, 
     "engines": {
         "node": ">=0.2.0"
+    },
+    "dependencies": {
+        "bufferlist": "",
+        "hashish": ""
     }
 }
 
