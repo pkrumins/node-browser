@@ -1,6 +1,6 @@
 {
     "name": "browser",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Web browser for node.js",
     "main" : "./browser.js",
     "keywords": [
@@ -9,27 +9,25 @@
         "html",
         "web"
     ],
-    "maintainers": [
-        {
-            "name": "Peteris Krumins",
-            "email": "peteris.krumins@gmail.com",
-            "web": "http://www.catonmat.net",
-            "twitter": "pkrumins"
-        } 
-    ],
+    "author": {
+        "name": "Peteris Krumins",
+        "email": "peteris.krumins@gmail.com",
+        "web": "http://www.catonmat.net",
+        "twitter": "pkrumins"
+    }, 
     "license": {
-            "type": "MIT"
+        "type": "MIT"
     }, 
     "repository": {
-            "type": "git",
-            "url": "http://github.com/pkrumins/node-browser.git"
+        "type": "git",
+        "url": "http://github.com/pkrumins/node-browser.git"
     }, 
     "engines": {
         "node": ">=0.2.0"
     },
     "dependencies": {
-        "bufferlist": "",
-        "hashish": ""
+        "bufferlist": "*",
+        "hashish": "*"
     }
 }
 
