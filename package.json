@@ -1,5 +1,5 @@
 {
-    "name": "browser",
+    "name": "browserx",
     "version": "1.0.1",
     "description": "Web browser for node.js",
     "main" : "./browser.js",
