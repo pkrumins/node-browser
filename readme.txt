@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/pkrumins/node-browser.png)](http://travis-ci.org/pkrumins/node-browser)
 A node.js module for browsing a web in an awesome way! I wrote it for my
 social-submitter software (http://github.com/pkrumins/social-submitter).
 
