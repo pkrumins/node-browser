@@ -1,13 +1,18 @@
+# node-broswer
+
 A node.js module for browsing a web in an awesome way! I wrote it for my
 social-submitter software (http://github.com/pkrumins/social-submitter).
 
-It was written by Peteris Krumins (peter@catonmat.net).
-His blog is at http://www.catonmat.net  --  good coders code, great reuse.
+It was written by **Peteris Krumins** (peter@catonmat.net).
+His blog is at http://www.catonmat.net -- good coders code, great reuse.
 
-------------------------------------------------------------------------------
+---
+
+# Overview
 
 Check this out:
 
+```
     var Browser = require('browser');
 
     var browser = new Browser;
@@ -39,6 +44,7 @@ Check this out:
             }
         )
         .end();
+```
 
 This logs you into Reddit and submits a story to data.subreddit subreddit.
 
@@ -47,13 +53,10 @@ facebook, and other sites:
 
     http://github.com/pkrumins/social-submitter
 
-
-------------------------------------------------------------------------------
+---
 
 Happy browsing!
-
 
 Sincerely,
 Peteris Krumins
 http://www.catonmat.net
-
